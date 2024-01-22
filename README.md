@@ -15,6 +15,7 @@ This Python script leverages the lief library to perform security checks on bina
 - **DEP (NX Compatibility) Check:** Verify Data Execution Prevention compatibility.
 - **SEH (Structured Exception Handling) Check:** Examine the presence of SEH records.
 - **SafeSEH Check:** Validate the presence of SafeSEH mitigations.
+- **Security Cookie Check:** Validate the presence of a stack canary (Binary compiled with /GS flag).
 - **Authenticode Check:** Detect the presence of binary signatures.
 - **/DYNAMICBASE with Stripped Relocations:** Check if `/DYNAMICBASE` is enabled, but relocations are stripped.
 - **Binary Signature Issuer:** Print the issuer of the binary signature, if present.
