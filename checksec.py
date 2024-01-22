@@ -72,6 +72,8 @@ class PE:
         return lief.PE.DLL_CHARACTERISTICS.NX_COMPAT in self.characteristics
 
     def seh(self):
+        if not self.pe.header.machine == lief.PE.MACHINE_TYPES.I386:
+            return False
         # Check if the binary uses Structured Exception Handling (SEH).
         return lief.PE.DLL_CHARACTERISTICS.NO_SEH not in self.characteristics
 
@@ -88,9 +90,16 @@ class PE:
         except AttributeError:
             return False
 
+    def security_cookie(self):
+        try:
+            # Check if binary has stack canary (/GS)
+            return True if self.pe.load_configuration.security_cookie != 0 else False
+        except AttributeError:
+            return False
+
     def aslr_relocations_check(self):
-        # Check if ASLR is enabled, relocations are stripped, and no authenticode signatures are present.
-        return self.aslr and self.pe.has_relocations and not self.pe.has_signatures
+        # Check if ASLR is enabled and relocations are stripped
+        return self.aslr and not self.pe.has_relocations
 
     def binary_signature_issuer(self):
         # Get the issuer of the binary signature
@@ -120,6 +129,7 @@ class PE:
             ("DEP", self.dep),
             ("SEH", self.seh),
             ("SafeSEH", self.safe_seh),
+            ("Security Cookie", self.security_cookie),
             ("Authenticode", self.has_signatures),
             ("/DYNAMICBASE with Stripped Relocations", self.aslr_relocations_check),
             ("Binary Signature Issuer", self.binary_signature_issuer)
