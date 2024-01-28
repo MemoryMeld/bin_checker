@@ -37,7 +37,7 @@ This Python script leverages the lief library to perform security checks on bina
 3. Install required dependencies using `pip`:
 
     ```bash
-    # lief updated code and current version changes how to get DLL_CHARACTERISTICS, below version works find. 
+    # lief updated code and current version changes how to get DLL_CHARACTERISTICS. The below version works as expected.
     pip install lief==0.13.2
     pip install colorama argparse prettytable
     ```
